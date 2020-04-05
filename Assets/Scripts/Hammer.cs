@@ -13,7 +13,7 @@ public class Hammer : MonoBehaviour
     private float PlaneY = 1.6f;
 
     private Plane Plane;
-    private Animator Anim;
+    private Animator Anim = null;
 
     private void Start()
     {
