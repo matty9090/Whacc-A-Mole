@@ -13,9 +13,11 @@ public class Hammer : MonoBehaviour
     private float PlaneY = 1.6f;
 
     private Plane Plane;
+    private Animator Anim;
 
     private void Start()
     {
+        Anim = GetComponentInChildren<Animator>();
         Plane = new Plane(Vector3.up, new Vector3(0.0f, PlaneY, 0.0f));
     }
 
@@ -28,5 +30,10 @@ public class Hammer : MonoBehaviour
         var point = ray.GetPoint(t);
 
         transform.position = point + Offset;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Anim.SetTrigger("Swing");
+        }
     }
 }
