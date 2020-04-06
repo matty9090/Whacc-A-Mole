@@ -5,6 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class HitEvent : UnityEvent<Vector3>
+{
+
+}
+
 public class Game : MonoBehaviour
 {
     [SerializeField]
@@ -18,6 +24,12 @@ public class Game : MonoBehaviour
 
     [SerializeField]
     Button UIBtnStart = null;
+
+    [SerializeField]
+    Canvas UICanvas = null;
+
+    [SerializeField]
+    GameObject UIComboPrefab = null;
 
     [SerializeField]
     AudioSource BlipSound = null;
@@ -43,7 +55,7 @@ public class Game : MonoBehaviour
     [SerializeField]
     float ComboTimeout = 2.2f;
 
-    public UnityEvent OnHitEvent = new UnityEvent();
+    public UnityEvent<Vector3> OnHitEvent = new HitEvent();
     public UnityEvent OnSwingEvent = new UnityEvent();
 
     enum EState { Countdown, Playing, Waiting }
@@ -76,13 +88,25 @@ public class Game : MonoBehaviour
         UIBtnStart.interactable = false;
     }
 
-    void OnHit()
+    void OnHit(Vector3 position)
     {
         if (IsPlaying())
         {
+            Combo++;
+            int add = Mathf.Max(0, Combo - 1);
+
             MissTimer = ComboTimeout;
-            Score += 5 + Combo++;
+            Score += 5 + add;
             UIScore.text = FormatScore(Score);
+
+            if (add > 0)
+            {
+                GameObject combo = Instantiate(UIComboPrefab);
+                combo.transform.parent = UICanvas.transform;
+                combo.transform.position = Camera.main.WorldToScreenPoint(position) + Vector3.up * 40.0f;
+                combo.GetComponentInChildren<TextMeshProUGUI>().text = "+" + add;
+                Destroy(combo, 1.0f);
+            }
         }
     }
 

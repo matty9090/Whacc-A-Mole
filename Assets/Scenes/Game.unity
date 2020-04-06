@@ -298,6 +298,9 @@ MonoBehaviour:
   UIHighscore: {fileID: 664356015}
   UITimer: {fileID: 172791746}
   UIBtnStart: {fileID: 1750615827}
+  UICanvas: {fileID: 1318154677}
+  UIComboPrefab: {fileID: 2923014890333237620, guid: 7625f8e16cb3e2f4eae70dda01c57842,
+    type: 3}
   BlipSound: {fileID: 115987160}
   BlipSound2: {fileID: 115987161}
   HighscoreSound: {fileID: 115987163}
@@ -306,9 +309,6 @@ MonoBehaviour:
   CountdownFrom: 4
   MissThreshold: 0.2
   ComboTimeout: 1.7
-  OnHitEvent:
-    m_PersistentCalls:
-      m_Calls: []
   OnSwingEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -1988,7 +1988,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

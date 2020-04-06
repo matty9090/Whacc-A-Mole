@@ -102,7 +102,7 @@ public class Mole : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Hide(HideSpeed * 4.0f);
-        Game.OnHitEvent.Invoke();
+        Game.OnHitEvent.Invoke(transform.position);
         GetComponent<AudioSource>().Play();
     }
 }
