@@ -39,6 +39,7 @@ public class Hammer : MonoBehaviour
         {
             Anim.SetTrigger("Swing");
             Game.OnSwingEvent.Invoke();
+            GetComponent<AudioSource>().Play();
         }
     }
 }

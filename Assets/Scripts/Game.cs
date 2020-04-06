@@ -20,6 +20,12 @@ public class Game : MonoBehaviour
     Button UIBtnStart = null;
 
     [SerializeField]
+    AudioSource BlipSound = null;
+
+    [SerializeField]
+    AudioSource BlipSound2 = null;
+
+    [SerializeField]
     int TimeLimit = 60;
 
     [SerializeField]
@@ -41,6 +47,7 @@ public class Game : MonoBehaviour
     private int Score = 0, Highscore = 0;
     private int Combo = 0;
     private float MissTimer = 9999.0f;
+    private int PrevTimer = 0;
 
     void Start()
     {
@@ -59,6 +66,7 @@ public class Game : MonoBehaviour
     public void StartGame()
     {
         State = EState.Countdown;
+        Timer = PrevTimer = CountdownFrom;
     }
 
     void OnHit()
@@ -84,7 +92,18 @@ public class Game : MonoBehaviour
         if (State == EState.Countdown)
         {
             Timer -= Time.deltaTime;
-            UITimer.text = FormatTime(Mathf.CeilToInt(Timer));
+            var t = Mathf.CeilToInt(Timer);
+            UITimer.text = FormatTime(t);
+
+            if (PrevTimer != t)
+            {
+                if (t == 0)
+                    BlipSound2.Play();
+                else
+                    BlipSound.Play();
+            }
+
+            PrevTimer = t;
 
             if (Timer <= -0.9f)
             {

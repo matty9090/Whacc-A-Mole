@@ -103,5 +103,6 @@ public class Mole : MonoBehaviour
     {
         Hide(HideSpeed * 4.0f);
         Game.OnHitEvent.Invoke();
+        GetComponent<AudioSource>().Play();
     }
 }
