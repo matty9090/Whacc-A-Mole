@@ -26,6 +26,12 @@ public class Game : MonoBehaviour
     AudioSource BlipSound2 = null;
 
     [SerializeField]
+    AudioSource HighscoreSound = null;
+
+    [SerializeField]
+    AudioSource GameOverSound = null;
+
+    [SerializeField]
     int TimeLimit = 60;
 
     [SerializeField]
@@ -67,6 +73,7 @@ public class Game : MonoBehaviour
     {
         State = EState.Countdown;
         Timer = PrevTimer = CountdownFrom;
+        UIBtnStart.interactable = false;
     }
 
     void OnHit()
@@ -105,7 +112,7 @@ public class Game : MonoBehaviour
 
             PrevTimer = t;
 
-            if (Timer <= -0.9f)
+            if (Timer <= -0.8f)
             {
                 State = EState.Playing;
                 Timer = TimeLimit;
@@ -121,12 +128,18 @@ public class Game : MonoBehaviour
                 State = EState.Waiting;
                 Timer = CountdownFrom;
 
+                UIBtnStart.interactable = true;
                 UITimer.text = FormatTime(CountdownFrom);
 
                 if (Score > Highscore)
                 {
+                    HighscoreSound.Play();
                     Highscore = Score;
                     UIHighscore.text = FormatScore(Highscore);
+                }
+                else
+                {
+                    GameOverSound.Play();
                 }
 
                 Score = 0;
