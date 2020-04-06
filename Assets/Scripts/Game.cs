@@ -74,11 +74,22 @@ public class Game : MonoBehaviour
 
         Timer = CountdownFrom;
         UITimer.text = FormatTime(CountdownFrom);
+
+        if (PlayerPrefs.HasKey("Highscore"))
+        {
+            Highscore = PlayerPrefs.GetInt("Highscore");
+            UIHighscore.text = FormatScore(Highscore);
+        }
     }
 
     public bool IsPlaying()
     {
         return State == EState.Playing;
+    }
+
+    public bool IsWaiting()
+    {
+        return State == EState.Waiting;
     }
 
     public void StartGame()
@@ -160,10 +171,18 @@ public class Game : MonoBehaviour
                     HighscoreSound.Play();
                     Highscore = Score;
                     UIHighscore.text = FormatScore(Highscore);
+
+                    PlayerPrefs.SetInt("Highscore", Highscore);
+                    PlayerPrefs.Save();
                 }
                 else
                 {
                     GameOverSound.Play();
+                }
+
+                foreach (Mole mole in FindObjectsOfType<Mole>())
+                {
+                    mole.HideMole();
                 }
 
                 Score = 0;

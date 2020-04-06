@@ -69,6 +69,11 @@ public class Mole : MonoBehaviour
         }
     }
 
+    public void HideMole()
+    {
+        Hide(HideSpeed);
+    }
+
     void Hide(float speed)
     {
         StopAllCoroutines();
