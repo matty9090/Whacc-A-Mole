@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 public class Hammer : MonoBehaviour
@@ -34,7 +35,7 @@ public class Hammer : MonoBehaviour
 
         transform.position = point + Offset;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Anim.SetTrigger("Swing");
             Game.OnSwingEvent.Invoke();
