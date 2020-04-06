@@ -12,26 +12,48 @@ public class Game : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI UIHighscore = null;
 
+    [SerializeField]
+    float MissThreshold = 0.8f;
+
+    [SerializeField]
+    float ComboTimeout = 2.2f;
+
     public UnityEvent OnHitEvent = new UnityEvent();
-    public UnityEvent OnMissEvent = new UnityEvent();
+    public UnityEvent OnSwingEvent = new UnityEvent();
 
     private int Score;
+    private int Combo = 0;
+    private float MissTimer = 9999.0f;
 
     void Start()
     {
         OnHitEvent.AddListener(OnHit);
-        OnMissEvent.AddListener(OnMiss);
+        OnSwingEvent.AddListener(OnSwing);
     }
 
     void OnHit()
     {
-        Score += 5;
+        MissTimer = ComboTimeout;
+        Score += 5 + Combo++;
+        Debug.Log(Combo);
         UIScore.text = FormatScore(Score);
     }
 
-    void OnMiss()
+    private void Update()
     {
-        
+        MissTimer -= Time.deltaTime;
+
+        if (MissTimer <= 0.0f)
+        {
+            Combo = 0;
+            MissTimer = ComboTimeout;
+        }
+    }
+
+    void OnSwing()
+    {
+        Debug.Log("Hit!");
+        MissTimer = MissThreshold;
     }
 
     string FormatScore(int score)

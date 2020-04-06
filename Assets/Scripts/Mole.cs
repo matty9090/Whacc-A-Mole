@@ -26,7 +26,7 @@ public class Mole : MonoBehaviour
     float HideSpeed = 1.6f;
 
     [SerializeField]
-    Game Game;
+    Game Game = null;
 
     enum EState { Hiding, Visible }
 

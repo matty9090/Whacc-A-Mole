@@ -292,10 +292,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIScore: {fileID: 450208641}
   UIHighscore: {fileID: 664356015}
+  MissThreshold: 0.8
   OnHitEvent:
     m_PersistentCalls:
       m_Calls: []
-  OnMissEvent:
+  OnSwingEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!4 &115987159
@@ -1086,6 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba8f24afd829abe489475310319281f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Game: {fileID: 115987158}
   Offset: {x: 1.26, y: 1, z: -1}
   PlaneY: 1.6
 --- !u!4 &1127706348

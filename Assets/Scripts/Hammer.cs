@@ -7,6 +7,9 @@ using UnityEngine.UIElements;
 public class Hammer : MonoBehaviour
 {
     [SerializeField]
+    private Game Game = null;
+
+    [SerializeField]
     private Vector3 Offset = Vector3.zero;
 
     [SerializeField]
@@ -34,6 +37,7 @@ public class Hammer : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Anim.SetTrigger("Swing");
+            Game.OnSwingEvent.Invoke();
         }
     }
 }
