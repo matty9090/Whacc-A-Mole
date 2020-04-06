@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 public class Game : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class Game : MonoBehaviour
     TextMeshProUGUI UITimer = null;
 
     [SerializeField]
-    GameObject UIInputBlocker = null;
+    Button UIBtnStart = null;
 
     [SerializeField]
     int TimeLimit = 60;
@@ -35,11 +34,11 @@ public class Game : MonoBehaviour
     public UnityEvent OnHitEvent = new UnityEvent();
     public UnityEvent OnSwingEvent = new UnityEvent();
 
-    enum EState { Countdown, Playing }
-    EState State = EState.Countdown;
+    enum EState { Countdown, Playing, Waiting }
+    EState State = EState.Waiting;
 
     private float Timer;
-    private int Score;
+    private int Score = 0, Highscore = 0;
     private int Combo = 0;
     private float MissTimer = 9999.0f;
 
@@ -49,13 +48,35 @@ public class Game : MonoBehaviour
         OnSwingEvent.AddListener(OnSwing);
 
         Timer = CountdownFrom;
+        UITimer.text = FormatTime(CountdownFrom);
+    }
+
+    public bool IsPlaying()
+    {
+        return State == EState.Playing;
+    }
+
+    public void StartGame()
+    {
+        State = EState.Countdown;
     }
 
     void OnHit()
     {
-        MissTimer = ComboTimeout;
-        Score += 5 + Combo++;
-        UIScore.text = FormatScore(Score);
+        if (IsPlaying())
+        {
+            MissTimer = ComboTimeout;
+            Score += 5 + Combo++;
+            UIScore.text = FormatScore(Score);
+        }
+    }
+
+    void OnSwing()
+    {
+        if (IsPlaying())
+        {
+            MissTimer = MissThreshold;
+        }
     }
 
     private void Update()
@@ -69,13 +90,28 @@ public class Game : MonoBehaviour
             {
                 State = EState.Playing;
                 Timer = TimeLimit;
-                UIInputBlocker.SetActive(false);
             }
         }
-        else
+        else if (State == EState.Playing)
         {
             Timer -= Time.deltaTime;
             UITimer.text = FormatTime(Mathf.CeilToInt(Timer));
+
+            if (Timer <= -0.9f)
+            {
+                State = EState.Waiting;
+                Timer = CountdownFrom;
+
+                UITimer.text = FormatTime(CountdownFrom);
+
+                if (Score > Highscore)
+                {
+                    Highscore = Score;
+                    UIHighscore.text = FormatScore(Highscore);
+                }
+
+                Score = 0;
+            }
 
             MissTimer -= Time.deltaTime;
 
@@ -85,11 +121,6 @@ public class Game : MonoBehaviour
                 MissTimer = ComboTimeout;
             }
         }
-    }
-
-    void OnSwing()
-    {
-        MissTimer = MissThreshold;
     }
 
     string FormatScore(int score)

@@ -37,11 +37,16 @@ public class Mole : MonoBehaviour
     private void Start()
     {
         RestY = transform.position.y;
-        Timer = Random.Range(PopUpMin, PopUpMax);
+        Timer = Random.Range(0.0f, PopUpMax);
     }
 
     void Update()
     {
+        if (!Game.IsPlaying())
+        {
+            return;
+        }
+
         if (State == EState.Hiding)
         {
             Timer -= Time.deltaTime;

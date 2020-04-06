@@ -35,7 +35,7 @@ public class Hammer : MonoBehaviour
 
         transform.position = point + Offset;
 
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0) && Game.IsPlaying())
         {
             Anim.SetTrigger("Swing");
             Game.OnSwingEvent.Invoke();
