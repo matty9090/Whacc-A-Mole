@@ -179,6 +179,11 @@ public class Game : MonoBehaviour
         }
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     string FormatScore(int score)
     {
         string s = "" + score;
