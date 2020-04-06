@@ -25,6 +25,9 @@ public class Mole : MonoBehaviour
     [SerializeField]
     float HideSpeed = 1.6f;
 
+    [SerializeField]
+    Game Game;
+
     enum EState { Hiding, Visible }
 
     float RestY = 0.0f;
@@ -63,6 +66,7 @@ public class Mole : MonoBehaviour
 
     void Hide(float speed)
     {
+        StopAllCoroutines();
         State = EState.Hiding;
         Timer = Random.Range(PopUpMin, PopUpMax);
         StartCoroutine(PopDown(speed));
@@ -93,5 +97,6 @@ public class Mole : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Hide(HideSpeed * 4.0f);
+        Game.OnHitEvent.Invoke();
     }
 }
